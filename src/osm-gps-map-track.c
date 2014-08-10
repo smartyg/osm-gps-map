@@ -54,6 +54,7 @@ enum
     POINT_CHANGED,
     POINT_INSERTED,
     POINT_REMOVED,
+    POINT_SELECTED,
     LAST_SIGNAL
 };
 
@@ -294,6 +295,17 @@ osm_gps_map_track_class_init (OsmGpsMapTrackClass *klass)
 	                            G_TYPE_NONE,
 	                            1,
 	                            G_TYPE_INT);
+
+    signals [POINT_SELECTED] = g_signal_new ("point-selected",
+	                            OSM_TYPE_GPS_MAP_TRACK,
+	                            G_SIGNAL_RUN_FIRST,
+	                            0,
+	                            NULL,
+	                            NULL,
+	                            g_cclosure_marshal_VOID__INT,
+	                            G_TYPE_NONE,
+	                            1,
+	                            OSM_TYPE_GPS_MAP_POINT);
 }
 
 static void
