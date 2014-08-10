@@ -2101,8 +2101,10 @@ osm_gps_map_button_press (GtkWidget *widget, GdkEventButton *event)
         }
     }
 
-    if(event->button == 1)
+    /* Use right click for drag and drop. */
+    if(event->button == 3)
     {
+
         GSList* tracks = priv->tracks;
         while(tracks)
         {
