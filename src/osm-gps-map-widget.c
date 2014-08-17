@@ -2164,7 +2164,7 @@ osm_gps_map_button_press (GtkWidget *widget, GdkEventButton *event)
                         continue;
                     }
 
-                    //add a new point if a 'breaker' has been clicked and right mousbutton was used and path was marked as editable
+                    // add a new point if a 'breaker' has been clicked
                     if(ctr != 0)
                     {
                         int ptx = (last_x+cx)/2.0;
