@@ -2194,10 +2194,10 @@ osm_gps_map_button_press (GtkWidget *widget, GdkEventButton *event)
         {
             OsmGpsMapPolygon* poly = polys->data;
             gboolean path_editable = FALSE;
-	    gboolean path_clickable = FALSE;
+            gboolean path_clickable = FALSE;
             OsmGpsMapTrack* track = osm_gps_map_polygon_get_track(poly);
             g_object_get(poly, "editable", &path_editable, NULL);
-	    g_object_get(track, "clickable", &path_clickable, NULL);
+            g_object_get(track, "clickable", &path_clickable, NULL);
             if(path_editable || path_clickable)
             {
                 GSList* points = osm_gps_map_track_get_points(track);
@@ -2215,33 +2215,33 @@ osm_gps_map_button_press (GtkWidget *widget, GdkEventButton *event)
                     float dist_sqrd = (event->x - cx) * (event->x-cx) + (event->y-cy) * (event->y-cy);
                     if(dist_sqrd <= ((DOT_RADIUS + 1) * (DOT_RADIUS + 1)))
                     {
-			if(event->button == 3 && path_editable)
-			{
-			  priv->is_button_down = TRUE;
-			  priv->drag_point = point;
-			  priv->drag_track = track;
-			  priv->is_dragging_point = TRUE;
-			}
-			else if(event->button == 1 && path_clickable)
-			{
-			  priv->select_point = point;
-			  priv->select_track = track;
-			  priv->is_select_point = TRUE;
-			}
+                        if(event->button == 3 && path_editable)
+                        {
+                            priv->is_button_down = TRUE;
+                            priv->drag_point = point;
+                            priv->drag_track = track;
+                            priv->is_dragging_point = TRUE;
+                        }
+                        else if(event->button == 1 && path_clickable)
+                        {
+                            priv->select_point = point;
+                            priv->select_track = track;
+                            priv->is_select_point = TRUE;
+                        }
                         osm_gps_map_map_redraw(map);
                         return FALSE;
                     }
 
                     /* When the right was not pressed or the path is not editable
-		     * go to the next interation, because the rest of this loop
-		     * is only used in the case the right mouse button was pressed
-		     * and the path editable is.
-		     */
+                     * go to the next interation, because the rest of this loop
+                     * is only used in the case the right mouse button was pressed
+                     * and the path editable is.
+                     */
                     if(event->button != 3 || !path_editable)
-		    {
-		      points = points->next;
-		      continue;
-		    }
+                    {
+                        points = points->next;
+                        continue;
+                    }
 
                     //add a new point if a 'breaker' has been clicked
                     if(ctr != 0)
