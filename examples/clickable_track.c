@@ -19,11 +19,14 @@
 
 #include <gtk/gtk.h>
 #include "osm-gps-map.h"
+#include "converter.h"
+
+void point_selected(OsmGpsMapTrack *osmgpsmaptrack, OsmGpsMapPoint *point, gpointer user_data);
 
 void
 point_selected(OsmGpsMapTrack *osmgpsmaptrack, OsmGpsMapPoint *point, gpointer user_data)
 {
-    printf("callback function; num: %d\n", (gint)(point->user_data));
+    printf("point at latitude: %.4f and longitude %.4f clicked\n", rad2deg(point->rlat), rad2deg(point->rlon));
 }
 
 int
@@ -43,12 +46,21 @@ main (int argc, char *argv[])
 
     OsmGpsMapTrack* track = osm_gps_map_track_new();
 
-    OsmGpsMapPoint* p1, *p2;
-    p1 = osm_gps_map_point_new_radians_with_user_data(1.25663706, -0.488692191, (gpointer)1);
-    p2 = osm_gps_map_point_new_radians_with_user_data(1.06465084, -0.750491578, (gpointer)2);
+    OsmGpsMapPoint* p1, *p2, *p3, *p4;
+    p1 = osm_gps_map_point_new_radians(1.25663706, -0.488692191);
+    p2 = osm_gps_map_point_new_radians(1.06465084, -0.750491578);
+    p3 = osm_gps_map_point_new_radians(1.17245321, -0.685401453);
+    p4 = osm_gps_map_point_new_radians(1.04543154, -0.105454354);
 
     osm_gps_map_track_add_point(track, p1);
     osm_gps_map_track_add_point(track, p2);
+    osm_gps_map_track_add_point(track, p3);
+    osm_gps_map_track_add_point(track, p4);
+
+    osm_gps_map_point_free(p1);
+    osm_gps_map_point_free(p2);
+    osm_gps_map_point_free(p3);
+    osm_gps_map_point_free(p4);
 
     g_object_set(track, "clickable", TRUE, NULL);
     g_signal_connect(track, "point-selected", G_CALLBACK(point_selected), NULL);
