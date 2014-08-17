@@ -14,7 +14,7 @@ OSMGPSMAP_LIBS =            \
 
 ## Demo Application
 if HAVE_GTHREAD
-noinst_PROGRAMS = mapviewer polygon editable_track
+noinst_PROGRAMS = mapviewer polygon editable_track breakable_track
 else
 noinst_PROGRAMS =
 endif
@@ -62,6 +62,21 @@ editable_track_CFLAGS =          \
     $(GTHREAD_CFLAGS)
 
 editable_track_LDADD =           \
+    $(OSMGPSMAP_LIBS)       \
+    $(GTHREAD_LIBS)         \
+    $(top_builddir)/src/libosmgpsmap-1.0.la
+
+breakable_track_SOURCES =         \
+    breakable_track.c
+
+breakable_track_CFLAGS =          \
+    -I$(top_srcdir)/src     \
+    $(WARN_CFLAGS)          \
+    $(DISABLE_DEPRECATED)   \
+    $(OSMGPSMAP_CFLAGS)     \
+    $(GTHREAD_CFLAGS)
+
+breakable_track_LDADD =           \
     $(OSMGPSMAP_LIBS)       \
     $(GTHREAD_LIBS)         \
     $(top_builddir)/src/libosmgpsmap-1.0.la
