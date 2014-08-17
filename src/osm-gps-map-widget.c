@@ -2169,7 +2169,7 @@ osm_gps_map_button_press (GtkWidget *widget, GdkEventButton *event)
         {
             OsmGpsMapPolygon* poly = polys->data;
             gboolean path_editable = FALSE;
-	    gboolean path_breakable = FALSE;
+            gboolean path_breakable = FALSE;
             OsmGpsMapTrack* track = osm_gps_map_polygon_get_track(poly);
             g_object_get(poly, "editable", &path_editable, NULL);
             g_object_get(track, "breakable", &path_breakable, NULL);
