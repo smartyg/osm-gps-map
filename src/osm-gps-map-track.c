@@ -104,7 +104,7 @@ osm_gps_map_track_get_property (GObject    *object,
         case PROP_EDITABLE:
             g_value_set_boolean(value, priv->editable);
             break;
-	case PROP_CLICKABLE:
+        case PROP_CLICKABLE:
             g_value_set_boolean(value, priv->clickable);
             break;
         default:
@@ -145,7 +145,7 @@ osm_gps_map_track_set_property (GObject      *object,
         case PROP_EDITABLE:
             priv->editable = g_value_get_boolean(value);
             break;
-	case PROP_CLICKABLE:
+        case PROP_CLICKABLE:
             priv->clickable = g_value_get_boolean(value);
             break;
         default:
