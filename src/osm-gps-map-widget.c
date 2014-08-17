@@ -2153,10 +2153,10 @@ osm_gps_map_button_press (GtkWidget *widget, GdkEventButton *event)
                         return FALSE;
                     }
 
-                    /* When the right was not pressed or the path is not editable
-                     * go to the next interation, because the rest of this loop
-                     * is only used in the case the right mouse button was pressed
-                     * and the path editable is.
+                    /* When the right mouse button was not pressed or the path
+                     * is not editable go to the next interation, because the
+                     * rest of this loop is only used in the case the right
+                     * mouse button was pressed and the path editable is.
                      */
                     if(event->button != 3 || !path_editable)
                     {
