@@ -44,7 +44,8 @@ enum
     PROP_LINE_WIDTH,
     PROP_ALPHA,
     PROP_COLOR,
-    PROP_EDITABLE
+    PROP_EDITABLE,
+    PROP_BREAKABLE
 };
 
 enum
@@ -66,6 +67,7 @@ struct _OsmGpsMapTrackPrivate
     gfloat alpha;
     GdkRGBA color;
     gboolean editable;
+    gboolean breakable;
 };
 
 #define DEFAULT_R   (0.6)
@@ -100,6 +102,9 @@ osm_gps_map_track_get_property (GObject    *object,
             break;
         case PROP_EDITABLE:
             g_value_set_boolean(value, priv->editable);
+            break;
+        case PROP_BREAKABLE:
+            g_value_set_boolean(value, priv->breakable);
             break;
         default:
             G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -138,6 +143,9 @@ osm_gps_map_track_set_property (GObject      *object,
             } break;
         case PROP_EDITABLE:
             priv->editable = g_value_get_boolean(value);
+            break;
+        case PROP_BREAKABLE:
+            priv->breakable = g_value_get_boolean(value);
             break;
         default:
             G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -228,6 +236,13 @@ osm_gps_map_track_class_init (OsmGpsMapTrackClass *klass)
                                                            FALSE,
                                                            G_PARAM_READABLE | G_PARAM_WRITABLE | G_PARAM_CONSTRUCT));
 
+    g_object_class_install_property (object_class,
+                                     PROP_BREAKABLE,
+                                     g_param_spec_boolean ("breakable",
+                                                           "breakable",
+                                                           "should this track be breakable, only works when editable is set to TRUE",
+                                                           FALSE,
+                                                           G_PARAM_READABLE | G_PARAM_WRITABLE | G_PARAM_CONSTRUCT));
 	/**
 	 * OsmGpsMapTrack::point-added:
 	 * @self: A #OsmGpsMapTrack

@@ -1165,7 +1165,9 @@ osm_gps_map_print_track (OsmGpsMap *map, OsmGpsMapTrack *track, cairo_t *cr)
         return;
 
     gboolean path_editable = FALSE;
+    gboolean path_breakable = FALSE;
     g_object_get(track, "editable", &path_editable, NULL);
+    g_object_get(track, "breakable", &path_breakable, NULL);
 
     cairo_set_line_width (cr, lw);
     cairo_set_source_rgba (cr, color.red, color.green, color.blue, alpha);
@@ -1194,7 +1196,7 @@ osm_gps_map_print_track (OsmGpsMap *map, OsmGpsMapTrack *track, cairo_t *cr)
             cairo_arc (cr, x, y, DOT_RADIUS, 0.0, 2 * M_PI);
             cairo_stroke(cr);
 
-            if(pt != points)
+            if(pt != points && path_breakable)
             {
                 cairo_set_source_rgba (cr, color.red, color.green, color.blue, alpha*0.75);
                 cairo_arc(cr, (last_x + x)/2.0, (last_y+y)/2.0, DOT_RADIUS, 0.0, 2*M_PI);
@@ -1271,8 +1273,10 @@ osm_gps_map_print_polygon (OsmGpsMap *map, OsmGpsMapPolygon *poly, cairo_t *cr)
         return;
 
     gboolean path_editable = FALSE;
+    gboolean path_breakable = FALSE;
     gboolean poly_shaded = FALSE;
     g_object_get(poly, "editable", &path_editable, NULL);
+    g_object_get(poly, "breakable", &path_breakable, NULL);
     g_object_get(poly, "shaded", &poly_shaded, NULL);
 
     cairo_set_line_width (cr, lw);
@@ -1320,7 +1324,7 @@ osm_gps_map_print_polygon (OsmGpsMap *map, OsmGpsMapPolygon *poly, cairo_t *cr)
             cairo_arc (cr, x, y, DOT_RADIUS, 0.0, 2 * M_PI);
             cairo_stroke(cr);
 
-            if(pt != points)
+            if(pt != points && path_breakable)
             {
                 cairo_set_source_rgba (cr, color.red, color.green, color.blue, alpha*0.75);
                 cairo_arc(cr, (last_x + x)/2.0, (last_y+y)/2.0, DOT_RADIUS, 0.0, 2*M_PI);
@@ -2108,7 +2112,9 @@ osm_gps_map_button_press (GtkWidget *widget, GdkEventButton *event)
         {
             OsmGpsMapTrack* track = tracks->data;
             gboolean path_editable = FALSE;
+            gboolean path_breakable = FALSE;
             g_object_get(track, "editable", &path_editable, NULL);
+            g_object_get(track, "breakable", &path_breakable, NULL);
             if(path_editable)
             {
                 GSList* points = osm_gps_map_track_get_points(track);
@@ -2134,7 +2140,7 @@ osm_gps_map_button_press (GtkWidget *widget, GdkEventButton *event)
                     }
 
                     //add a new point if a 'breaker' has been clicked
-                    if(ctr != 0)
+                    if(ctr != 0 && path_breakable)
                     {
                         int ptx = (last_x+cx)/2.0;
                         int pty = (last_y+cy)/2.0;
@@ -2163,8 +2169,10 @@ osm_gps_map_button_press (GtkWidget *widget, GdkEventButton *event)
         {
             OsmGpsMapPolygon* poly = polys->data;
             gboolean path_editable = FALSE;
+	    gboolean path_breakable = FALSE;
             OsmGpsMapTrack* track = osm_gps_map_polygon_get_track(poly);
             g_object_get(poly, "editable", &path_editable, NULL);
+            g_object_get(track, "breakable", &path_breakable, NULL);
             if(path_editable)
             {
                 GSList* points = osm_gps_map_track_get_points(track);
@@ -2191,7 +2199,7 @@ osm_gps_map_button_press (GtkWidget *widget, GdkEventButton *event)
                     }
 
                     //add a new point if a 'breaker' has been clicked
-                    if(ctr != 0)
+                    if(ctr != 0 && path_breakable)
                     {
                         int ptx = (last_x+cx)/2.0;
                         int pty = (last_y+cy)/2.0;
