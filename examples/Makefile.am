@@ -13,11 +13,7 @@ OSMGPSMAP_LIBS =            \
     $(SOUP24_LIBS)
 
 ## Demo Application
-if HAVE_GTHREAD
 noinst_PROGRAMS = mapviewer polygon editable_track breakable_track clickable_track editable_clickable_track
-else
-noinst_PROGRAMS =
-endif
 
 mapviewer_SOURCES =         \
     mapviewer.c

@@ -1,10 +1,10 @@
 AC_PREREQ([2.63])
 AC_INIT([osm-gps-map],
-        [1.0.2],
+        [1.1.0],
         [http://github.com/nzjrs/osm-gps-map/issues],
         [osm-gps-map])
 
-AM_INIT_AUTOMAKE([1.11])
+AM_INIT_AUTOMAKE([1.11 foreign subdir-objects parallel-tests])
 
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_SRCDIR([src/osm-gps-map.h])
@@ -25,11 +25,7 @@ PKG_CHECK_MODULES(SOUP24,   [libsoup-2.4])
 
 # The mapviewer demo also calls g_thread_init, so it needs to link against
 # libgthread-2.0.
-PKG_CHECK_MODULES(GTHREAD, [gthread-2.0], [
-    have_gthread="yes" ], [
-        have_gthread="no"
-        AC_MSG_RESULT([mapviewer demo disabled])])
-AM_CONDITIONAL([HAVE_GTHREAD], [ test "x$have_gthread" = "xyes" ])
+PKG_CHECK_MODULES(GTHREAD, [gthread-2.0])
 
 AC_CHECK_FUNCS(gdk_event_get_scroll_deltas)
 
@@ -52,16 +48,15 @@ AM_CONDITIONAL(OS_WIN32, [test $os_win32 = yes])
 # - If binary compatibility has been broken (eg removed or changed interfaces)
 #   change to C+1:0:0
 # - If the interface is the same as the previous version, change to C:R+1:A
-LT_VERSION_INFO=0:0:0
+LT_VERSION_INFO=1:0:0
 AC_SUBST(LT_VERSION_INFO)
 
 GOBJECT_INTROSPECTION_REQS=0.10.0
-GOBJECT_INTROSPECTION_REQUIRE([$GOBJECT_INTROSPECTION_REQS])
+GOBJECT_INTROSPECTION_CHECK([$GOBJECT_INTROSPECTION_REQS])
 
 GTK_DOC_CHECK([1.12])
 
 GNOME_COMPILE_WARNINGS([maximum])
-GNOME_MAINTAINER_MODE_DEFINES
 
 AC_OUTPUT([
 osmgpsmap-1.0.pc
