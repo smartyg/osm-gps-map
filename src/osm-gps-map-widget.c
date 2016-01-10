@@ -1159,14 +1159,13 @@ osm_gps_map_print_track (OsmGpsMap *map, OsmGpsMapTrack *track, cairo_t *cr)
     OsmGpsMapPoint *highlight_point;
     int x,y;
     int min_x = 0,min_y = 0,max_x = 0,max_y = 0;
-    gfloat lw, alpha;
+    gfloat lw;
     int map_x0, map_y0;
     GdkRGBA color, highlight_color;
 
     g_object_get (track,
                   "track", &points,
                   "line-width", &lw,
-                  "alpha", &alpha,
                   "highlight_point", &highlight_point,
                   NULL);
     osm_gps_map_track_get_color(track, &color);
@@ -1183,7 +1182,7 @@ osm_gps_map_print_track (OsmGpsMap *map, OsmGpsMapTrack *track, cairo_t *cr)
     g_object_get(track, "clickable", &path_clickable, NULL);
 
     cairo_set_line_width (cr, lw);
-    cairo_set_source_rgba (cr, color.red, color.green, color.blue, alpha);
+    cairo_set_source_rgba (cr, color.red, color.green, color.blue, color.alpha);
     cairo_set_line_cap (cr, CAIRO_LINE_CAP_ROUND);
     cairo_set_line_join (cr, CAIRO_LINE_JOIN_ROUND);
 
@@ -1208,10 +1207,10 @@ osm_gps_map_print_track (OsmGpsMap *map, OsmGpsMapTrack *track, cairo_t *cr)
         {
             if(tp == highlight_point)
             {
-                cairo_set_source_rgba (cr, highlight_color.red, highlight_color.green, highlight_color.blue, alpha);
+                cairo_set_source_rgba (cr, highlight_color.red, highlight_color.green, highlight_color.blue, highlight_color.alpha);
                 cairo_arc (cr, x, y, DOT_RADIUS, 0.0, 2 * M_PI);
                 cairo_stroke(cr);
-                cairo_set_source_rgba (cr, color.red, color.green, color.blue, alpha);
+                cairo_set_source_rgba (cr, color.red, color.green, color.blue, color.alpha);
             }
             else
                 cairo_arc (cr, x, y, DOT_RADIUS, 0.0, 2 * M_PI);
@@ -1220,10 +1219,10 @@ osm_gps_map_print_track (OsmGpsMap *map, OsmGpsMapTrack *track, cairo_t *cr)
             /* This draws the breaker point, do this only when the track is editable. */
             if(pt != points && path_editable)
             {
-                cairo_set_source_rgba (cr, color.red, color.green, color.blue, alpha*0.75);
+                cairo_set_source_rgba (cr, color.red, color.green, color.blue, color.alpha * 0.75);
                 cairo_arc(cr, (last_x + x)/2.0, (last_y+y)/2.0, DOT_RADIUS, 0.0, 2*M_PI);
                 cairo_stroke(cr);
-                cairo_set_source_rgba (cr, color.red, color.green, color.blue, alpha);
+                cairo_set_source_rgba (cr, color.red, color.green, color.blue, color.alpha);
             }
         }
 
@@ -1276,7 +1275,7 @@ osm_gps_map_print_polygon (OsmGpsMap *map, OsmGpsMapPolygon *poly, cairo_t *cr)
     GSList *pt,*points;
     int x,y;
     int min_x = 0,min_y = 0,max_x = 0,max_y = 0;
-    gfloat lw, alpha;
+    gfloat lw;
     int map_x0, map_y0;
     GdkRGBA color;
 
@@ -1287,7 +1286,6 @@ osm_gps_map_print_polygon (OsmGpsMap *map, OsmGpsMapPolygon *poly, cairo_t *cr)
     g_object_get (track,
                   "track", &points,
                   "line-width", &lw,
-                  "alpha", &alpha,
                   NULL);
     osm_gps_map_track_get_color(track, &color);
 
@@ -1304,7 +1302,7 @@ osm_gps_map_print_polygon (OsmGpsMap *map, OsmGpsMapPolygon *poly, cairo_t *cr)
     g_object_get(poly, "shaded", &poly_shaded, NULL);
 
     cairo_set_line_width (cr, lw);
-    cairo_set_source_rgba (cr, color.red, color.green, color.blue, alpha);
+    cairo_set_source_rgba (cr, color.red, color.green, color.blue, color.alpha);
     cairo_set_line_cap (cr, CAIRO_LINE_CAP_ROUND);
     cairo_set_line_join (cr, CAIRO_LINE_JOIN_ROUND);
 
@@ -1351,19 +1349,19 @@ osm_gps_map_print_polygon (OsmGpsMap *map, OsmGpsMapPolygon *poly, cairo_t *cr)
             /* This draws the breaker point, do this only when the track is editable. */
             if(pt != points && path_editable)
             {
-                cairo_set_source_rgba (cr, color.red, color.green, color.blue, alpha*0.75);
+                cairo_set_source_rgba (cr, color.red, color.green, color.blue, color.alpha * 0.75);
                 cairo_arc(cr, (last_x + x)/2.0, (last_y+y)/2.0, DOT_RADIUS, 0.0, 2*M_PI);
                 cairo_stroke(cr);
-                cairo_set_source_rgba (cr, color.red, color.green, color.blue, alpha);
+                cairo_set_source_rgba (cr, color.red, color.green, color.blue, color.alpha);
             }
             last_x = x; last_y = y;
         }
 
         x = first_x; y = first_y;
-        cairo_set_source_rgba (cr, color.red, color.green, color.blue, alpha*0.75);
+        cairo_set_source_rgba (cr, color.red, color.green, color.blue, color.alpha * 0.75);
         cairo_arc(cr, (last_x + x)/2.0, (last_y+y)/2.0, DOT_RADIUS, 0.0, 2*M_PI);
         cairo_stroke(cr);
-        cairo_set_source_rgba (cr, color.red, color.green, color.blue, alpha);
+        cairo_set_source_rgba (cr, color.red, color.green, color.blue, color.alpha);
     }
 
     gtk_widget_queue_draw_area (
